@@ -1,5 +1,9 @@
 import { LightningElement, wire } from "lwc";
-import { subscribe, MessageContext } from "lightning/messageService";
+import {
+  subscribe,
+  unsubscribe,
+  MessageContext
+} from "lightning/messageService";
 import COUNT_UPDATED_CHANNEL from "@salesforce/messageChannel/Count_Updated__c";
 
 export default class Counts extends LightningElement {
@@ -31,5 +35,10 @@ export default class Counts extends LightningElement {
 
   connectedCallback() {
     this.subscribeToMessageChannel();
+  }
+
+  disconnectedCallback() {
+    unsubscribe(this.subscription);
+    this.subscription = null;
   }
 }
